@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.order.mapper.OrderMapper">
+
+    <resultMap id="BaseResultMap" type="com.ssm.order.bean.Order">
+        <id column="order_id" property="orderId" jdbcType="INTEGER"/>
+        <result column="order_title" property="orderTitle" jdbcType="VARCHAR"/>
+        <result column="order_mark" property="orderMark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    order_id, order_title, order_mark
+  </sql>
+
+    <select id="getList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ssm_order
+    </select>
+
+    <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from ssm_order
+        where order_id = #{orderId,jdbcType=INTEGER}
+    </select>
+
+    <delete id="delete" parameterType="java.lang.Integer">
+    delete from ssm_order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </delete>
+
+    <insert id="insert" parameterType="com.ssm.order.bean.Order">
+    insert into ssm_order (order_id, order_title, order_mark )
+    values (#{orderId,jdbcType=INTEGER}, #{orderTitle,jdbcType=VARCHAR}, #{orderMark,jdbcType=VARCHAR} )
+  </insert>
+
+    <update id="update" parameterType="com.ssm.order.bean.Order">
+    update ssm_order
+    set order_title = #{orderTitle,jdbcType=VARCHAR},
+      order_mark = #{orderMark,jdbcType=VARCHAR}
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+</mapper>

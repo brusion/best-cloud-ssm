@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.user.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.ssm.user.bean.User">
+        <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="user_desc" property="userDesc" jdbcType="VARCHAR"/>
+        <result column="order_id" property="orderId" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    user_id, user_name, user_desc, order_id
+  </sql>
+
+    <select id="getList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ssm_user
+    </select>
+
+    <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from ssm_user
+        where user_id = #{userId,jdbcType=INTEGER}
+    </select>
+
+    <delete id="delete" parameterType="java.lang.Integer">
+    delete from ssm_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+
+
+    <insert id="insert" parameterType="com.ssm.user.bean.User">
+    insert into ssm_user (user_id, user_name, user_desc, 
+      order_id)
+    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userDesc,jdbcType=VARCHAR}, 
+      #{orderId,jdbcType=INTEGER})
+  </insert>
+
+    <update id="update" parameterType="com.ssm.user.bean.User">
+    update ssm_user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      user_desc = #{userDesc,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+
+</mapper>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>数据获取</title>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <script>
+        var app = angular.module('myApp', []);
+        //注入http对象
+        app.controller('myController', function ($scope, $http) {
+            $scope.findAll = function () {
+                $http.get('http://localhost:2333/user/list').success(
+                    function (response) {
+                        $scope.list = response;
+                        $scope.getUserOrder();
+                    }
+                );
+            }
+
+            $scope.getUserOrder = function () {
+                $http.get('http://localhost:2333/user/order/1').success(
+                    function (response) {
+                        $scope.data = response;
+                    }
+                );
+            }
+        });
+
+    </script>
+</head>
+<body ng-app="myApp" ng-controller="myController" ng-init="findAll()">
+
+
+<h3>用户列表数据</h3>
+<table>
+    <tr>
+        <td>用户id</td>
+        <td>用户名称</td>
+        <td>订单描述</td>
+        <td>订单号</td>
+    </tr>
+    <tr ng-repeat="item in list">
+        <td>{{item.userId}}</td>
+        <td>{{item.userName}}</td>
+        <td>{{item.userDesc}}</td>
+        <td>{{item.orderId}}</td>
+    </tr>
+</table>
+
+<h3>用户订单数据</h3>
+<table>
+    <tr>
+        <td>订单id</td>
+        <td>用户名称</td>
+        <td>订单描述</td>
+    </tr>
+    <tr>
+        <td>{{data.orderId}}</td>
+        <td>{{data.orderTitle}}</td>
+        <td>{{data.orderMark}}</td>
+    </tr>
+</table>
+
+</body>
+</html>
